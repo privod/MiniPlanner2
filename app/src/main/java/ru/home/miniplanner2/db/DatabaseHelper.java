@@ -31,10 +31,10 @@ import ru.home.miniplanner2.model.Plan;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String TAG = DatabaseHelper.class.getSimpleName();
-    private static final String DATABASE_NAME ="planner.db";
+    private static final String DATABASE_NAME = "planner.db";
     private static final int DATABASE_VERSION = 1;
 
-//    private Map<Class, Dao<Domain>> daoMap;
+    //    private Map<Class, Dao<Domain>> daoMap;
     private Dao<Plan> planDao;
     private Dao<Party> partyDao;
     private Dao<Bay> bayDao;
@@ -52,8 +52,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Party.class);
             TableUtils.createTable(connectionSource, Bay.class);
             TableUtils.createTable(connectionSource, Contribution.class);
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             Log.e(TAG, e.getMessage());
         }
 //        daoMap = new HashMap<>();
@@ -61,8 +60,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        try
-        {
+        try {
             TableUtils.dropTable(connectionSource, Plan.class, true);
             TableUtils.createTable(connectionSource, Plan.class);
             TableUtils.dropTable(connectionSource, Party.class, true);
@@ -78,8 +76,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //            upgradeTable(database, getBayDao(), Bay.class);
 //            upgradeTable(database, getContributionDao(), Contribution.class);
 
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             Log.e(TAG, e.getMessage());
             throw new RuntimeException(e);
         }
@@ -125,49 +122,27 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return planDao;
     }
 
-//    public synchronized Dao getPlanDao() {
-//        if (null == planDao) {
-//            try {
-//                planDao = new Dao(getConnectionSource(), Plan.class);
-//            } catch (SQLException e) {
-//                Log.e(TAG, e.getMessage());
-//            }
-//        }
-//        return planDao;
-//    }
-//
-//    public synchronized PartyDao getPartyDao() {
-//        if (null == partyDao) {
-//            try {
-//                partyDao = new PartyDao(getConnectionSource(), Party.class);
-//            } catch (SQLException e) {
-//                Log.e(TAG, e.getMessage());
-//            }
-//        }
-//        return partyDao;
-//    }
-//
-//    public synchronized BayDao getBayDao() {
-//        if (null == bayDao) {
-//            try {
-//                bayDao = new BayDao(getConnectionSource(), Bay.class);
-//            } catch (SQLException e) {
-//                Log.e(TAG, e.getMessage());
-//            }
-//        }
-//        return bayDao;
-//    }
-//
-//    public synchronized ContributionDao getContributionDao() {
-//        if (null == contributionDao) {
-//            try {
-//                contributionDao = new ContributionDao(getConnectionSource(), Contribution.class);
-//            } catch (SQLException e) {
-//                Log.e(TAG, e.getMessage());
-//            }
-//        }
-//        return contributionDao;
-//    }
+
+    public synchronized Dao<Party> getPartyDao() {
+        if (null == partyDao) {
+            partyDao = daoCreate(Party.class);
+        }
+        return partyDao;
+    }
+
+    public synchronized Dao<Bay> getBayDao() {
+        if (null == bayDao) {
+            bayDao = daoCreate(Bay.class);
+        }
+        return bayDao;
+    }
+
+    public synchronized Dao<Contribution> getContributionDao() {
+        if (null == contributionDao) {
+            contributionDao = daoCreate(Contribution.class);
+        }
+        return contributionDao;
+    }
 
     @Override
     public void close() {
