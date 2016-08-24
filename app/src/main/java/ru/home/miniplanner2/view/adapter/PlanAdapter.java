@@ -6,18 +6,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ru.home.miniplanner2.R;
+import ru.home.miniplanner2.Util;
 import ru.home.miniplanner2.model.Plan;
 
 /**
  * Created by privod on 23.08.2016.
  */
-public class PlanAdapter extends PlannerBaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
+public class PlanAdapter extends BaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
 
     public PlanAdapter(Class<PlanViewHolder> tClass) {
         super(PlanViewHolder.class);
     }
 
-    public class PlanViewHolder extends PlannerBaseAdapter.ViewHolder {
+    public class PlanViewHolder extends BaseAdapter.ViewHolder {
         private TextView costTotalTextView;
         private TextView nameTextView;
         private TextView dateRegTextView;
@@ -42,5 +43,7 @@ public class PlanAdapter extends PlannerBaseAdapter<PlanAdapter.PlanViewHolder, 
     public void onBindViewHolder(PlanViewHolder holder, int position) {
         Plan plan = getItem(position);
         holder.nameTextView.setText(plan.getName());
+        holder.dateRegTextView.setText(Util.dateToString(plan.getDateReg()));
+        holder.costTotalTextView.setText(plan.getTotalCost().toPlainString());
     }
 }

@@ -2,11 +2,7 @@ package ru.home.miniplanner2.view;
 
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import ru.home.miniplanner2.R;
 import ru.home.miniplanner2.db.Dao;
 import ru.home.miniplanner2.db.HelperFactory;
 import ru.home.miniplanner2.model.Plan;
@@ -30,7 +26,6 @@ public class PlansFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        HelperFactory.setHelper(this.getActivity());
         planDao = HelperFactory.getHelper().getPlanDao();
 
         planAdapter = new PlanAdapter(PlanAdapter.PlanViewHolder.class);
@@ -41,7 +36,7 @@ public class PlansFragment extends ListFragment {
     public void onResume() {
         super.onResume();
 
-        planAdapter.setmData(planDao.getAll());
+        planAdapter.setData(planDao.getAll());
         planAdapter.notifyDataSetChanged();
     }
 }

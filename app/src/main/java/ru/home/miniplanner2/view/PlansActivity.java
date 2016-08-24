@@ -9,7 +9,14 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import ru.home.miniplanner2.R;
+import ru.home.miniplanner2.db.Dao;
+import ru.home.miniplanner2.db.HelperFactory;
+import ru.home.miniplanner2.model.Plan;
 
 public class PlansActivity extends AppCompatActivity {
 
@@ -19,6 +26,8 @@ public class PlansActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plans);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        HelperFactory.setHelper(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +55,22 @@ public class PlansActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.action_cre_debug_data) {
+
+            Dao<Plan> planDao = HelperFactory.getHelper().getPlanDao();
+
+            Plan plan;
+            plan = new Plan();
+            plan.setName("Рыбылка");
+            plan.setDateReg(new GregorianCalendar(2015, 5, 28).getTime());
+            planDao.save(plan);
+
+            plan = new Plan();
+            plan.setName("Хмельники");
+            plan.setDateReg(new GregorianCalendar(2015, 7, 2).getTime());
+            planDao.save(plan);
+
             return true;
         }
 

@@ -2,8 +2,9 @@ package ru.home.miniplanner2.view.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ru.home.miniplanner2.model.Domain;
@@ -11,7 +12,7 @@ import ru.home.miniplanner2.model.Domain;
 /**
  * Created by privod on 22.08.2016.
  */
-public abstract class PlannerBaseAdapter<VH extends PlannerBaseAdapter.ViewHolder, T extends Domain> extends BaseAdapter {
+public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder, T extends Domain> extends android.widget.BaseAdapter {
 
     public abstract VH onCreateViewHolder(ViewGroup parent);
     public abstract void onBindViewHolder(VH holder, int position);
@@ -28,22 +29,23 @@ public abstract class PlannerBaseAdapter<VH extends PlannerBaseAdapter.ViewHolde
         }
     }
 
-//    private Context mContext;
-    private List<T> mData = null;
+//    private Context context;
+    private List<T> data;
     protected Class<VH> tClass;
 
-    public PlannerBaseAdapter(Class<VH> tClass) {
+    public BaseAdapter(Class<VH> tClass) {
+        this.data = new ArrayList<>();
         this.tClass = tClass;
     }
 
     @Override
     public int getCount() {
-        return mData.size();
+        return data.size();
     }
 
     @Override
     public T getItem(int position) {
-        return mData.get(position);
+        return data.get(position);
     }
 
     @Override
@@ -68,7 +70,11 @@ public abstract class PlannerBaseAdapter<VH extends PlannerBaseAdapter.ViewHolde
         return convertView;
     }
 
-    public void setmData(List<T> mData) {
-        this.mData = mData;
+    public void setData(List<T> data) {
+        this.data = data;
+    }
+
+    public void setData(Collection<T> c) {
+        this.data = new ArrayList<>(c);
     }
 }
