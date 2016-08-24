@@ -55,7 +55,7 @@ public abstract class PlannerBaseAdapter<VH extends PlannerBaseAdapter.ViewHolde
     public View getView(int position, View convertView, ViewGroup parent) {
         VH holder;
 
-        if (convertView == null){
+        if (convertView == null) {
             holder = onCreateViewHolder(parent);
             convertView = holder.getItemView();
             convertView.setTag(holder);
@@ -66,5 +66,9 @@ public abstract class PlannerBaseAdapter<VH extends PlannerBaseAdapter.ViewHolde
         onBindViewHolder(holder, position);
 
         return convertView;
+    }
+
+    public void setmData(List<T> mData) {
+        this.mData = mData;
     }
 }
