@@ -1,8 +1,5 @@
-package ru.home.miniplanner2.adapter;
+package ru.home.miniplanner2.view.adapter;
 
-import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -33,10 +30,11 @@ public abstract class PlannerBaseAdapter<VH extends PlannerBaseAdapter.ViewHolde
 
 //    private Context mContext;
     private List<T> mData = null;
+    protected Class<VH> tClass;
 
-//    public PlannerBaseAdapter(Context mContext) {
-//        this.mContext = mContext;
-//    }
+    public PlannerBaseAdapter(Class<VH> tClass) {
+        this.tClass = tClass;
+    }
 
     @Override
     public int getCount() {
@@ -62,7 +60,7 @@ public abstract class PlannerBaseAdapter<VH extends PlannerBaseAdapter.ViewHolde
             convertView = holder.getItemView();
             convertView.setTag(holder);
         } else {
-            holder = (VH) convertView.getTag();
+            holder = tClass.cast(convertView.getTag());
         }
 
         onBindViewHolder(holder, position);

@@ -1,4 +1,4 @@
-package ru.home.miniplanner2.adapter;
+package ru.home.miniplanner2.view.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,10 @@ import ru.home.miniplanner2.model.Plan;
  * Created by privod on 23.08.2016.
  */
 public class PlanAdapter extends PlannerBaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
+
+    public PlanAdapter(Class<PlanViewHolder> tClass) {
+        super(PlanViewHolder.class);
+    }
 
     public class PlanViewHolder extends PlannerBaseAdapter.ViewHolder {
         private TextView costTotalTextView;
