@@ -14,7 +14,12 @@ import ru.home.miniplanner2.view.adapter.PlanAdapter;
 public class PlansFragment extends ListFragment {
 
     private Dao<Plan> planDao;
-    PlanAdapter planAdapter;
+
+    public PlanAdapter getPlanAdapter() {
+        return planAdapter;
+    }
+
+    private PlanAdapter planAdapter;
 
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,
 //    @Override

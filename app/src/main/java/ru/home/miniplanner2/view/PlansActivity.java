@@ -18,8 +18,15 @@ import ru.home.miniplanner2.R;
 import ru.home.miniplanner2.db.Dao;
 import ru.home.miniplanner2.db.HelperFactory;
 import ru.home.miniplanner2.model.Plan;
+import ru.home.miniplanner2.view.adapter.PlanAdapter;
 
 public class PlansActivity extends AppCompatActivity {
+
+    PlanAdapter planAdapter;
+
+    public PlanAdapter getPlanAdapter() {
+        return planAdapter;
+    }
 
     Fragment fragment;
 
@@ -32,7 +39,8 @@ public class PlansActivity extends AppCompatActivity {
 
         HelperFactory.setHelper(this);
 
-        if (null == savedInstanceState) {
+        fragment = getFragmentManager().findFragmentById(R.id.content_plans);
+        if (null == fragment) {
             fragment = new PlansFragment();
             getFragmentManager().beginTransaction()
                     .add(R.id.content_plans, fragment)
@@ -80,6 +88,12 @@ public class PlansActivity extends AppCompatActivity {
             plan.setName("Хмельники");
             plan.setDateReg(new GregorianCalendar(2015, 7, 2).getTime());
             planDao.save(plan);
+
+            if (fragment instanceof PlansFragment) {
+                PlanAdapter adapter = ((PlansFragment) fragment).getPlanAdapter();
+                adapter.setData(planDao.getAll());
+                adapter.notifyDataSetChanged();
+            }
 
             return true;
         }
