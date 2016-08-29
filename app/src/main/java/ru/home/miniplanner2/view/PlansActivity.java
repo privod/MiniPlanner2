@@ -1,5 +1,6 @@
 package ru.home.miniplanner2.view;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,8 @@ import ru.home.miniplanner2.model.Plan;
 
 public class PlansActivity extends AppCompatActivity {
 
+    Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +31,13 @@ public class PlansActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         HelperFactory.setHelper(this);
+
+        if (null == savedInstanceState) {
+            fragment = new PlansFragment();
+            getFragmentManager().beginTransaction()
+                    .add(R.id.content_plans, fragment)
+                    .commit();
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
