@@ -14,22 +14,11 @@ import ru.home.miniplanner2.view.adapter.PlanAdapter;
 public class PlansFragment extends ListFragment {
 
     private Dao<Plan> planDao;
-
-    public PlanAdapter getPlanAdapter() {
-        return planAdapter;
-    }
-
     private PlanAdapter planAdapter;
 
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//    @Override
-//                             Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.fragment_plans, container, false);
-//    }
-
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         planDao = HelperFactory.getHelper().getPlanDao();
 
@@ -43,5 +32,9 @@ public class PlansFragment extends ListFragment {
 
         planAdapter.setData(planDao.getAll());
         planAdapter.notifyDataSetChanged();
+    }
+
+    public PlanAdapter getPlanAdapter() {
+        return planAdapter;
     }
 }

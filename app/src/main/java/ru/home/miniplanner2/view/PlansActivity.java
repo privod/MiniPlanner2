@@ -19,6 +19,7 @@ import ru.home.miniplanner2.db.Dao;
 import ru.home.miniplanner2.db.HelperFactory;
 import ru.home.miniplanner2.model.Plan;
 import ru.home.miniplanner2.view.adapter.PlanAdapter;
+import ru.home.miniplanner2.view.edit.PlanEditFragment;
 
 public class PlansActivity extends AppCompatActivity {
 
@@ -51,8 +52,10 @@ public class PlansActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                fragment = PlanEditFragment.newInstance(0, "");
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_plans, fragment)
+                        .commit();
             }
         });
     }
