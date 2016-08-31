@@ -52,7 +52,7 @@ public class PlansActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment = PlanEditFragment.newInstance(0, "");
+                fragment = PlanEditFragment.newInstance(0);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content_plans, fragment)
                         .commit();
