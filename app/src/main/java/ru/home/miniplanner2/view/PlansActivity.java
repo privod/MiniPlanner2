@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -17,8 +18,13 @@ import ru.home.miniplanner2.R;
 import ru.home.miniplanner2.db.Dao;
 import ru.home.miniplanner2.db.HelperFactory;
 import ru.home.miniplanner2.model.Plan;
+import ru.home.miniplanner2.view.adapter.PlanAdapter;
 
 public class PlansActivity extends AppCompatActivity {
+
+    private Dao<Plan> planDao;
+    PlanAdapter planAdapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +34,32 @@ public class PlansActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         HelperFactory.setHelper(this);
+        planDao = HelperFactory.getHelper().getPlanDao();
+
+        planAdapter = new PlanAdapter(PlanAdapter.PlanViewHolder.class);
+        listView = (ListView) findViewById(R.id.list_view);
+        if (null != listView) {
+            listView.setAdapter(planAdapter);
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        if (null != fab) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        planAdapter.setData(planDao.getAll());
+        planAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -70,6 +93,9 @@ public class PlansActivity extends AppCompatActivity {
             plan.setName("Хмельники");
             plan.setDateReg(new GregorianCalendar(2015, 7, 2).getTime());
             planDao.save(plan);
+
+            planAdapter.setData(planDao.getAll());
+            planAdapter.notifyDataSetChanged();
 
             return true;
         }
