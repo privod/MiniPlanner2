@@ -2,7 +2,9 @@ package ru.home.miniplanner2.view.edit;
 
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
+import ru.home.miniplanner2.R;
 import ru.home.miniplanner2.model.Plan;
 
 /**
@@ -20,8 +22,16 @@ public class PlanEditActivity extends EditActivity<Plan> {
     }
 
     @Override
+    public void changeEntity() {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.edit_content);
+        getLayoutInflater().inflate(R.layout.edit_plan, layout, true);
 
 
     }

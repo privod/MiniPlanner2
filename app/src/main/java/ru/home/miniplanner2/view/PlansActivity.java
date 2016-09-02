@@ -1,8 +1,8 @@
 package ru.home.miniplanner2.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,8 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import ru.home.miniplanner2.R;
@@ -19,6 +17,7 @@ import ru.home.miniplanner2.db.Dao;
 import ru.home.miniplanner2.db.HelperFactory;
 import ru.home.miniplanner2.model.Plan;
 import ru.home.miniplanner2.view.adapter.PlanAdapter;
+import ru.home.miniplanner2.view.edit.PlanEditActivity;
 
 public class PlansActivity extends AppCompatActivity {
 
@@ -47,8 +46,9 @@ public class PlansActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Intent intent = new Intent(PlansActivity.this, PlanEditActivity.class);
+                    intent.putExtra(getString(R.string.argument_id), 0L);
+                    startActivityForResult(intent, getResources().getInteger(R.integer.request_code_plan_edit));
                 }
             });
         }

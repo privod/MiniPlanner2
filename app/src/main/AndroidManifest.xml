@@ -18,6 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.edit.PlanEditActivity"
+            android:label="@string/activity.plan_edit"
+            android:windowSoftInputMode="stateVisible" />
     </application>
 
 </manifest>

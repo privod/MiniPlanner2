@@ -35,14 +35,14 @@ public abstract class EditActivity<T extends Domain> extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         Intent intent = this.getIntent();
-        long id = (long) intent.getLongExtra(getString(R.string.arg_id), 0);
+        long id = (long) intent.getLongExtra(getString(R.string.argument_id), 0);
         if (id == 0) {
             entity = newInstanceEntity();
         } else {
             entity = dao.getById(id);
         }
 
-        okButton = (Button) findViewById(R.id.okButton);
+        okButton = (Button) findViewById(R.id.button_ok);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +53,7 @@ public abstract class EditActivity<T extends Domain> extends AppCompatActivity {
             }
         });
 
-        cancelButton = (Button) findViewById(R.id.cancelButton);
+        cancelButton = (Button) findViewById(R.id.button_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
