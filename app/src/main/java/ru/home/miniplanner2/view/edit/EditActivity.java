@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import ru.home.miniplanner2.R;
 import ru.home.miniplanner2.db.Dao;
+import ru.home.miniplanner2.db.HelperFactory;
 import ru.home.miniplanner2.model.Domain;
 
 
@@ -15,10 +16,8 @@ import ru.home.miniplanner2.model.Domain;
  * Created by privod on 27.10.2015.
  */
 public abstract class EditActivity<T extends Domain> extends AppCompatActivity {
-    static final String LOG_TAG = EditActivity.class.getSimpleName();
-    static final String ARG_ID = "id";
 
-    private Dao<T> dao;
+    protected Dao<T> dao;
     protected T entity;
 
     protected OnEditorActionDoneListener doneListener;
@@ -35,21 +34,28 @@ public abstract class EditActivity<T extends Domain> extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         Intent intent = this.getIntent();
-        long id = (long) intent.getLongExtra(getString(R.string.argument_id), 0);
+        long id = intent.getLongExtra(getString(R.string.argument_id), 0);
         if (id == 0) {
             entity = newInstanceEntity();
         } else {
             entity = dao.getById(id);
         }
 
-        okButton = (Button) findViewById(R.id.button_ok);
-        okButton.setOnClickListener(new View.OnClickListener() {
+        doneListener = new OnEditorActionDoneListener() {
             @Override
-            public void onClick(View v) {
+            public void onActionDone() {
                 changeEntity();
                 dao.save(entity);
                 setResult(RESULT_OK);
                 finish();
+            }
+        };
+
+        okButton = (Button) findViewById(R.id.button_ok);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doneListener.onActionDone();
             }
         });
 

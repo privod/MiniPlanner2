@@ -1,5 +1,8 @@
 package ru.home.miniplanner2;
 
+import android.util.Log;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -13,5 +16,14 @@ public class Util {
 
     public static String dateToString(Date date) {
         return dateFormat.format(date);
+    }
+
+    public static Date dateParse(String date) {
+        try {
+            return dateFormat.parse(date);
+        } catch (ParseException e) {
+            Log.e(Util.class.getSimpleName(), e.getMessage());
+            return null;
+        }
     }
 }
