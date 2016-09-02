@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import java.util.GregorianCalendar;
@@ -24,6 +26,7 @@ public class PlansActivity extends AppCompatActivity {
     private Dao<Plan> planDao;
     PlanAdapter planAdapter;
     ListView listView;
+    ActionMode actionMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +43,40 @@ public class PlansActivity extends AppCompatActivity {
         if (null != listView) {
             listView.setAdapter(planAdapter);
         }
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(android.view.ActionMode mode, int position, long id, boolean checked) {
+
+            }
+
+            @Override
+            public boolean onCreateActionMode(android.view.ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(android.view.ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(android.view.ActionMode mode, MenuItem item) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(android.view.ActionMode mode) {
+
+            }
+        })
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (null != fab) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(PlansActivity.this, PlanEditActivity.class);
-                    intent.putExtra(getString(R.string.argument_id), 0L);
-                    startActivityForResult(intent, getResources().getInteger(R.integer.request_code_plan_edit));
+                    startPlanEditActivity(0L);
                 }
             });
         }
@@ -101,5 +129,11 @@ public class PlansActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startPlanEditActivity(long planId) {
+        Intent intent = new Intent(PlansActivity.this, PlanEditActivity.class);
+        intent.putExtra(getString(R.string.argument_id), planId);
+        startActivityForResult(intent, getResources().getInteger(R.integer.request_code_plan_edit));
     }
 }
