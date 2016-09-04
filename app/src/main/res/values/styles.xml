@@ -17,4 +17,42 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppTheme.LayoutPadding">
+        <item name="android:paddingBottom">@dimen/spacing_normal</item>
+        <item name="android:paddingLeft">@dimen/spacing_normal</item>
+        <item name="android:paddingRight">@dimen/spacing_normal</item>
+        <item name="android:paddingTop">@dimen/spacing_normal</item>
+    </style>
+
+    <style name="AppTheme.ListView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AppTheme.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AppTheme.Button.FloatingActionButton" >
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:layout_margin">@dimen/fab_margin</item>
+        <item name="android:src">@android:drawable/ic_input_add</item>
+    </style>
+
+    <style name="AppTheme.Button.AppCompatButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Widget.AppCompat.EditText.Date">
+        <item name="android:inputType">date</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Widget.AppCompat.EditText.Name">
+        <item name="android:inputType">textCapSentences</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>

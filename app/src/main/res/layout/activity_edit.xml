@@ -1,68 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".view.edit.PlanEditActivity"
+    >
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-    </android.support.design.widget.AppBarLayout>
+    <!--<include layout="@layout/app_bar" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         android:orientation="vertical"
         android:weightSum="1"
-        tools:context="ru.home.miniplanner.view.edit.PlanEditActivity">
+        style="@style/AppTheme.LayoutPadding"
+        >
+        <!--android:layout_marginTop="?attr/actionBarSize"-->
 
         <LinearLayout
+            android:id="@+id/edit_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edit_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            >
 
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/button_top_margin"
             android:gravity="end"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/button_ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/ok"
-                style="@style/Widget.AppCompat.Button.Borderless" />
-            <!--android:textColor="@android:color/primary_text_dark" -->
-            <!--android:background="@color/colorPrimary"-->
+                style="@style/AppTheme.Button.AppCompatButton"
+                />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/button_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/cancel"
-                style="@style/Widget.AppCompat.Button.Borderless" />
-                <!--style="@style/Widget.AppCompat.Button.Colored"-->
+                style="@style/AppTheme.Button.AppCompatButton"
+                />
+                <!--style="@style/Widget.AppCompat.Button.Borderless"-->
 
         </LinearLayout>
 
