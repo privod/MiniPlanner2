@@ -1,11 +1,13 @@
 package ru.home.miniplanner2.view;
 
+import android.content.Entity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import ru.home.miniplanner2.R;
 import ru.home.miniplanner2.db.Dao;
@@ -42,35 +45,55 @@ public class PlansActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list_view);
         if (null != listView) {
             listView.setAdapter(planAdapter);
+
+            listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+            listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+                @Override
+                public void onItemCheckedStateChanged(android.view.ActionMode mode, int position, long id, boolean checked) {
+
+                }
+
+                @Override
+                public boolean onCreateActionMode(android.view.ActionMode mode, Menu menu) {
+                    mode.getMenuInflater().inflate(R.menu.action_mode, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(android.view.ActionMode mode, Menu menu) {
+                    return false;
+                }
+
+                @Override
+                public boolean onActionItemClicked(android.view.ActionMode mode, MenuItem item) {
+                    if (item.getItemId() == R.id.action_remove) {
+//                        List<Plan> plans = planDao.getAll();
+                        SparseBooleanArray arrayChecked = listView.getCheckedItemPositions();
+                        for (int i = 0; i < arrayChecked.size(); i++) {
+                            int position = arrayChecked.keyAt(i);
+                            if (arrayChecked.get(position))
+                                planDao.delete(planDao.getAll().get(position));
+                        }
+                        planAdapter.setData(planDao.getAll());
+                        planAdapter.notifyDataSetChanged();
+
+                        mode.finish();
+//                        multiSelector.clearSelections();
+                        return true;
+                    } else if (item.getItemId() == R.id.action_edit) {
+                        int position = listView.getCheckedItemPosition();
+                        startPlanEditActivity(planDao.getAll().get(position).getId());
+//                        openPlanEditActivity(listView.getCheckedItemPosition());       // Режим редактирования возможен только если выцделен один элемен, поэтому цикла не делаю, а выбираю нулевой элемент.
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(android.view.ActionMode mode) {
+
+                }
+            });
         }
-        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
-        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
-            @Override
-            public void onItemCheckedStateChanged(android.view.ActionMode mode, int position, long id, boolean checked) {
-
-            }
-
-            @Override
-            public boolean onCreateActionMode(android.view.ActionMode mode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onPrepareActionMode(android.view.ActionMode mode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(android.view.ActionMode mode, MenuItem item) {
-                return false;
-            }
-
-            @Override
-            public void onDestroyActionMode(android.view.ActionMode mode) {
-
-            }
-        })
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (null != fab) {
             fab.setOnClickListener(new View.OnClickListener() {
