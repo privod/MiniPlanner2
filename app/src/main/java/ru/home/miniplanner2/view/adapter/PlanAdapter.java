@@ -24,17 +24,18 @@ import ru.home.miniplanner2.model.Plan;
  */
 public class PlanAdapter extends BaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
 
-    Animation animToSide;
-    Animation animFromSide;
+//    Animation animToSide;
+//    Animation animFromSide;
 
     public PlanAdapter(Context context, Class<PlanViewHolder> tClass) {
         super(PlanViewHolder.class);
 
-        animToSide = AnimationUtils.loadAnimation(context, R.anim.to_side);
-        animFromSide = AnimationUtils.loadAnimation(context, R.anim.from_side);
+//        animToSide = AnimationUtils.loadAnimation(context, R.anim.to_side);
+//        animFromSide = AnimationUtils.loadAnimation(context, R.anim.from_side);
     }
 
     public class PlanViewHolder extends BaseAdapter.ViewHolder {
+        private boolean isChecked;
         private TextView costTotalTextView;
         private TextView nameTextView;
         private TextView dateRegTextView;
@@ -44,7 +45,6 @@ public class PlanAdapter extends BaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
         public PlanViewHolder(View itemView) {
             super(itemView);
 
-            this.itemView = itemView;
             nameTextView = (TextView) itemView.findViewById(R.id.text_view_name);
             dateRegTextView = (TextView) itemView.findViewById(R.id.text_view_date_reg);
             costTotalTextView = (TextView) itemView.findViewById(R.id.text_view_cost_total);
@@ -73,51 +73,30 @@ public class PlanAdapter extends BaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
             holder.avatar.setImageDrawable(drawable);
         }
 
-        if (((ListView) parent).isItemChecked(position) && holder.avatar.getVisibility() == View.VISIBLE) {
-//            holder.avatar.setVisibility(View.GONE);
-//            holder.iconChecked.setVisibility(View.VISIBLE);
-//            holder.itemView.setBackgroundColor(Color.LTGRAY);
-            avatar_switch(holder.avatar, holder.iconChecked);
+        if (((ListView) parent).isItemChecked(position)) {
+            holder.avatar.setVisibility(View.GONE);
+            holder.iconChecked.setVisibility(View.VISIBLE);
+            holder.itemView.setBackgroundColor(Color.LTGRAY);
+//            avatar_switch(holder);
         } else {
-//            holder.avatar.setVisibility(View.VISIBLE);
-//            holder.iconChecked.setVisibility(View.GONE);
-//            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-            avatar_switch(holder.iconChecked, holder.avatar);
+            holder.avatar.setVisibility(View.VISIBLE);
+            holder.iconChecked.setVisibility(View.GONE);
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+//            avatar_switch(holder.iconChecked, holder.avatar);
         }
 
         holder.dateRegTextView.setText(Util.dateToString(plan.getDateReg()));
         holder.costTotalTextView.setText(plan.getTotalCost().toPlainString());
     }
 
-    void avatar_switch(View visible, View notVisible) {
-        animToSide.setAnimationListener(new AvatarAnimationListener(visible, notVisible));
-        visible.startAnimation(animToSide);
-    }
-
-    class AvatarAnimationListener implements Animation.AnimationListener {
-        View visible;
-        View notVisible;
-
-        public AvatarAnimationListener(View visible, View notVisible) {
-            this.visible = visible;
-            this.notVisible = notVisible;
+/*    void avatar_switch(PlanViewHolder holder) {
+        if (holder.isChecked) {
+            animToSide.setAnimationListener(new AvatarAnimationListener(holder.iconChecked, holder.avatar));
+            holder.iconChecked.startAnimation(animToSide);
+        } else {
+            animToSide.setAnimationListener(new AvatarAnimationListener(holder.avatar, holder.iconChecked));
+            holder.avatar.startAnimation(animToSide);
         }
-
-        @Override
-        public void onAnimationStart(Animation animation) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            visible.setVisibility(View.GONE);
-            notVisible.setVisibility(View.VISIBLE);
-            notVisible.startAnimation(animFromSide);
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
-    }
+        holder.isChecked = !holder.isChecked;
+    }*/
 }
