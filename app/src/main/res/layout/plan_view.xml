@@ -13,7 +13,7 @@
         >
 
         <ImageView
-            android:id="@+id/image_view_avatar"
+            android:id="@+id/avatar"
             android:layout_width="@dimen/size_avatar"
             android:layout_height="@dimen/size_avatar"
             />

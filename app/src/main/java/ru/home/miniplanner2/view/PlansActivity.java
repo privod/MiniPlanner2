@@ -73,6 +73,7 @@ public class PlansActivity extends AppCompatActivity {
                         for (int i = 0; i < arrayChecked.size(); i++) {
                             int position = arrayChecked.keyAt(i);
                             if (arrayChecked.get(position))
+                                // TODO Падает при множественном удалении
                                 planDao.delete(planDao.getAll().get(position));
                         }
                         planAdapter.setData(planDao.getAll());
