@@ -61,10 +61,12 @@ public class PlansActivity extends AppCompatActivity {
                 public void onItemCheckedStateChanged(android.view.ActionMode mode, int position, long id, boolean checked) {
 //                    Toast.makeText(PlansActivity.this, "Action mode: " + checked, Toast.LENGTH_SHORT).show();
 
-                    View view = (View) listView.getChildAt(position);
-                    ImageView avatar = (ImageView) view.findViewById(R.id.avatar);
-                    ImageView iconChecked = (ImageView) view.findViewById(R.id.check_icon);
+                    View view = listView.getChildAt(position).findViewById(R.id.frame_layout_avatar);
+//                    view.setPivotX(0.5f);
+                    view.animate().withLayer().scaleX(0).setDuration(300).start();
 
+                    /*ImageView avatar = (ImageView) view.findViewById(R.id.avatar);
+                    ImageView iconChecked = (ImageView) view.findViewById(R.id.check_icon);
                     if (checked) {
 //                        animToSide.setAnimationListener(new AvatarAnimationListener(iconChecked, avatar));
 //                        iconChecked.startAnimation(animToSide);
@@ -73,7 +75,7 @@ public class PlansActivity extends AppCompatActivity {
 //                        animToSide.setAnimationListener(new AvatarAnimationListener(avatar, iconChecked));
 //                        avatar.startAnimation(animToSide);
                         avatar_switch(iconChecked, avatar);
-                    }
+                    }*/
 
 
 //                    planAdapter.notifyDataSetChanged();
@@ -198,6 +200,48 @@ public class PlansActivity extends AppCompatActivity {
     }
 
     class AvatarAnimationListener implements Animation.AnimationListener {
+        View view;
+        Animation animNext;
+
+        public AvatarAnimationListener(View view, Animation animNext) {
+            this.view = view;
+            this.animNext = animNext;
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            visible.setVisibility(View.GONE);
+            notVisible.setVisibility(View.VISIBLE);
+            notVisible.startAnimation(animNext);
+            animNext.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    planAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+
+        /*class AvatarAnimationListener implements Animation.AnimationListener {
         View visible;
         View notVisible;
         Animation animNext;
@@ -239,6 +283,6 @@ public class PlansActivity extends AppCompatActivity {
         @Override
         public void onAnimationRepeat(Animation animation) {
 
-        }
+        }*/
     }
 }
