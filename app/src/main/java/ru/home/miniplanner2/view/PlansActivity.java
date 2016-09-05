@@ -11,17 +11,24 @@ import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.lang.Object;
 
 import ru.home.miniplanner2.R;
 import ru.home.miniplanner2.db.Dao;
 import ru.home.miniplanner2.db.HelperFactory;
 import ru.home.miniplanner2.model.Plan;
+import ru.home.miniplanner2.view.adapter.BaseAdapter;
 import ru.home.miniplanner2.view.adapter.PlanAdapter;
 import ru.home.miniplanner2.view.edit.PlanEditActivity;
 
@@ -30,7 +37,9 @@ public class PlansActivity extends AppCompatActivity {
     private Dao<Plan> planDao;
     PlanAdapter planAdapter;
     ListView listView;
-    ActionMode actionMode;
+
+    private AnimationSet animFromSide;
+    private AnimationSet animToSide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +51,7 @@ public class PlansActivity extends AppCompatActivity {
         HelperFactory.setHelper(this);
         planDao = HelperFactory.getHelper().getPlanDao();
 
-        planAdapter = new PlanAdapter(PlanAdapter.PlanViewHolder.class);
+        planAdapter = new PlanAdapter(this, PlanAdapter.PlanViewHolder.class);
         listView = (ListView) findViewById(R.id.list_view);
         if (null != listView) {
             listView.setAdapter(planAdapter);
@@ -51,6 +60,11 @@ public class PlansActivity extends AppCompatActivity {
             listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
                 @Override
                 public void onItemCheckedStateChanged(android.view.ActionMode mode, int position, long id, boolean checked) {
+                    Toast.makeText(PlansActivity.this, "Action mode: " + checked, Toast.LENGTH_SHORT).show();
+
+                    View view = (View) listView.getChildAt(position);
+
+                    planAdapter.notifyDataSetChanged();
 
                 }
 
@@ -95,7 +109,9 @@ public class PlansActivity extends AppCompatActivity {
 
                 }
             });
+
         }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (null != fab) {
             fab.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +121,12 @@ public class PlansActivity extends AppCompatActivity {
                 }
             });
         }
+
+
+
+
+
+
     }
 
     @Override

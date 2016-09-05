@@ -1,10 +1,15 @@
 package ru.home.miniplanner2.view.adapter;
 
+import android.animation.Animator;
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -19,8 +24,14 @@ import ru.home.miniplanner2.model.Plan;
  */
 public class PlanAdapter extends BaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
 
-    public PlanAdapter(Class<PlanViewHolder> tClass) {
+    Animation animToSide;
+    Animation animFromSide;
+
+    public PlanAdapter(Context context, Class<PlanViewHolder> tClass) {
         super(PlanViewHolder.class);
+
+        animToSide = AnimationUtils.loadAnimation(context, R.anim.to_side);
+        animFromSide = AnimationUtils.loadAnimation(context, R.anim.from_side);
     }
 
     public class PlanViewHolder extends BaseAdapter.ViewHolder {
@@ -28,14 +39,17 @@ public class PlanAdapter extends BaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
         private TextView nameTextView;
         private TextView dateRegTextView;
         private ImageView avatar;
+        private ImageView iconChecked;
 
         public PlanViewHolder(View itemView) {
             super(itemView);
 
+            this.itemView = itemView;
             nameTextView = (TextView) itemView.findViewById(R.id.text_view_name);
             dateRegTextView = (TextView) itemView.findViewById(R.id.text_view_date_reg);
             costTotalTextView = (TextView) itemView.findViewById(R.id.text_view_cost_total);
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
+            iconChecked = (ImageView) itemView.findViewById(R.id.check_icon);
         }
     }
 
@@ -47,7 +61,7 @@ public class PlanAdapter extends BaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
     }
 
     @Override
-    public void onBindViewHolder(PlanViewHolder holder, int position) {
+    public void onBindViewHolder(PlanViewHolder holder, int position, ViewGroup parent) {
 
         Plan plan = getItem(position);
         if (!holder.nameTextView.getText().equals(plan.getName())) {
@@ -58,7 +72,52 @@ public class PlanAdapter extends BaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
             TextDrawable drawable = TextDrawable.builder().buildRound(letter, generator.getColor(letter));
             holder.avatar.setImageDrawable(drawable);
         }
+
+        if (((ListView) parent).isItemChecked(position) && holder.avatar.getVisibility() == View.VISIBLE) {
+//            holder.avatar.setVisibility(View.GONE);
+//            holder.iconChecked.setVisibility(View.VISIBLE);
+//            holder.itemView.setBackgroundColor(Color.LTGRAY);
+            avatar_switch(holder.avatar, holder.iconChecked);
+        } else {
+//            holder.avatar.setVisibility(View.VISIBLE);
+//            holder.iconChecked.setVisibility(View.GONE);
+//            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+            avatar_switch(holder.iconChecked, holder.avatar);
+        }
+
         holder.dateRegTextView.setText(Util.dateToString(plan.getDateReg()));
         holder.costTotalTextView.setText(plan.getTotalCost().toPlainString());
+    }
+
+    void avatar_switch(View visible, View notVisible) {
+        animToSide.setAnimationListener(new AvatarAnimationListener(visible, notVisible));
+        visible.startAnimation(animToSide);
+    }
+
+    class AvatarAnimationListener implements Animation.AnimationListener {
+        View visible;
+        View notVisible;
+
+        public AvatarAnimationListener(View visible, View notVisible) {
+            this.visible = visible;
+            this.notVisible = notVisible;
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            visible.setVisibility(View.GONE);
+            notVisible.setVisibility(View.VISIBLE);
+            notVisible.startAnimation(animFromSide);
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
     }
 }

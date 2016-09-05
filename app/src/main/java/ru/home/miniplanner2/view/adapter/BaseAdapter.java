@@ -15,7 +15,7 @@ import ru.home.miniplanner2.model.Domain;
 public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder, T extends Domain> extends android.widget.BaseAdapter {
 
     public abstract VH onCreateViewHolder(ViewGroup parent);
-    public abstract void onBindViewHolder(VH holder, int position);
+    public abstract void onBindViewHolder(VH holder, int position, ViewGroup parent);
 
     public static class ViewHolder {
         View itemView;
@@ -65,7 +65,7 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder, T extends D
             holder = tClass.cast(convertView.getTag());
         }
 
-        onBindViewHolder(holder, position);
+        onBindViewHolder(holder, position, parent);
 
         return convertView;
     }
