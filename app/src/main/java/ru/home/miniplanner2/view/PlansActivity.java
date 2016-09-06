@@ -130,10 +130,11 @@ public class PlansActivity extends AppCompatActivity {
         public void onItemCheckedStateChanged(android.view.ActionMode mode, int position, long id, boolean checked) {
 
 
-            View view = listView.getChildAt(position).findViewById(R.id.frame_layout_avatar);
+            /*View view = listView.getChildAt(position).findViewById(R.id.frame_layout_avatar);
 //            view.setPivotX(0.5f);
             view.animate().withLayer().scaleX(0).setDuration(300).setListener(new AnimationAvatarBehavior(view, listView.getCheckedItemPositions()))
-                    .start();
+                    .scaleX(1)
+                    .start();*/
 
                     /*ImageView avatarIcon = (ImageView) view.findViewById(R.id.icon_avatar);
                     ImageView checkedIcon = (ImageView) view.findViewById(R.id.icon_check);
@@ -206,8 +207,8 @@ public class PlansActivity extends AppCompatActivity {
         public void onAnimationEnd(Animator animator) {
             planAdapter.setArrayChecked(arrayChecked);
             planAdapter.notifyDataSetChanged();
-            view.animate().withLayer().scaleX(1).setDuration(300).setListener(null)
-                    .start();
+//            view.animate().withLayer().scaleX(1).setDuration(300).setListener(null)
+//                    .start();
         }
     }
 }

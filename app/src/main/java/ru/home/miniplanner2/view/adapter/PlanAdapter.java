@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -70,7 +71,7 @@ public class PlanAdapter extends BaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
     }
 
     @Override
-    public void onBindViewHolder(PlanViewHolder holder, int position) {
+    public void onBindViewHolder(PlanViewHolder holder, int position, ViewGroup parent) {
 
         Plan plan = getItem(position);
         if (!holder.nameTextView.getText().equals(plan.getName())) {
@@ -78,7 +79,16 @@ public class PlanAdapter extends BaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
             holder.avatarIcon.setImageDrawable(holder.getNewAvatarDrawable(plan.getName()));
         }
 
-        if (getArrayChecked().get(position, false)) {
+        boolean newChecked = ((ListView) parent).isItemChecked(position);
+        if (newChecked != getArrayChecked().get(position)) {
+            if (newChecked) {
+
+            } else {
+
+            }
+
+        }
+        /*if (getArrayChecked().get(position, false)) {
             if (holder.avatarIcon.getDrawable() != holder.checkedDrawable) {
                 // TODO Вынести в метод
                 holder.avatarIcon.setImageDrawable(holder.checkedDrawable);
@@ -92,7 +102,7 @@ public class PlanAdapter extends BaseAdapter<PlanAdapter.PlanViewHolder, Plan> {
                 holder.checkedIcon.setVisibility(View.GONE);
                 holder.itemView.setBackgroundColor(Color.TRANSPARENT);
             }
-        }
+        }*/
 
         holder.dateRegTextView.setText(Util.dateToString(plan.getDateReg()));
         holder.costTotalTextView.setText(plan.getTotalCost().toPlainString());
