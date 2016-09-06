@@ -13,19 +13,19 @@
         >
 
         <ImageView
-            android:id="@+id/avatar"
+            android:id="@+id/icon_avatar"
             android:layout_width="@dimen/size_avatar"
             android:layout_height="@dimen/size_avatar"
             />
 
         <ImageView
-            android:id="@+id/check_icon"
+            android:id="@+id/icon_check"
             android:layout_width="@dimen/size_avatar"
             android:layout_height="@dimen/size_avatar"
             android:src="@drawable/check_sm"
-            android:background="@drawable/circle"
             android:visibility="gone"
             />
+            <!--android:background="@drawable/circle"-->
 
     </FrameLayout>
 

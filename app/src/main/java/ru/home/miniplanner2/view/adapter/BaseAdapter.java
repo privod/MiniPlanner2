@@ -1,5 +1,6 @@
 package ru.home.miniplanner2.view.adapter;
 
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,7 +16,7 @@ import ru.home.miniplanner2.model.Domain;
 public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder, T extends Domain> extends android.widget.BaseAdapter {
 
     public abstract VH onCreateViewHolder(ViewGroup parent);
-    public abstract void onBindViewHolder(VH holder, int position, ViewGroup parent);
+    public abstract void onBindViewHolder(VH holder, int position);
 
     public static class ViewHolder {
         View itemView;
@@ -31,10 +32,12 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder, T extends D
 
 //    private Context context;
     private List<T> data;
+    private SparseBooleanArray arrayChecked;
     protected Class<VH> tClass;
 
     public BaseAdapter(Class<VH> tClass) {
         this.data = new ArrayList<>();
+        this.arrayChecked = new SparseBooleanArray();
         this.tClass = tClass;
     }
 
@@ -60,12 +63,12 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder, T extends D
         if (convertView == null) {
             holder = onCreateViewHolder(parent);
             convertView = holder.getItemView();
-            convertView.setTag(holder);
         } else {
             holder = tClass.cast(convertView.getTag());
         }
 
-        onBindViewHolder(holder, position, parent);
+        onBindViewHolder(holder, position);
+        convertView.setTag(holder);
 
         return convertView;
     }
@@ -76,5 +79,17 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder, T extends D
 
     public void setData(Collection<T> c) {
         this.data = new ArrayList<>(c);
+    }
+
+    public List<T> getData() {
+        return data;
+    }
+
+    public SparseBooleanArray getArrayChecked() {
+        return arrayChecked;
+    }
+
+    public void setArrayChecked(SparseBooleanArray arrayChecked) {
+        this.arrayChecked = arrayChecked;
     }
 }

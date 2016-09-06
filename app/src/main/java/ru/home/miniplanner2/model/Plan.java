@@ -17,7 +17,6 @@ import java.util.Date;
  */
 @DatabaseTable
 public class Plan extends Domain {
-    public static final String EXTRA_NAME = "plan";
 
     @DatabaseField
     private String name;
@@ -25,11 +24,6 @@ public class Plan extends Domain {
     private Date dateReg;
     @DatabaseField(dataType = DataType.BIG_DECIMAL)
     private BigDecimal costExpect;
-    @DatabaseField(dataType = DataType.INTEGER)
-    @ColorInt
-    private int avatarColor;
-    @DatabaseField(dataType = DataType.BOOLEAN)
-    private boolean selected;
     @ForeignCollectionField
     private Collection<Party> parties;
 
@@ -100,19 +94,4 @@ public class Plan extends Domain {
         this.costExpect = costExpect;
     }
 
-    public int getAvatarColor() {
-        return avatarColor;
-    }
-
-    public void setAvatarColor(int avatarColor) {
-        this.avatarColor = avatarColor;
-    }
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
 }
